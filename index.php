@@ -4,11 +4,23 @@
     $consultaSQL = "SELECT id, titulo, descricao, salario, localizacao  FROM tbl_vagas";
 
     // EXECUTANDO A CONSULTA 
-
     $ExecConsulta = $cn -> query($consultaSQL);
 
     // CRIANDO UM ARRAY DE VAGAS
     $vagas = $ExecConsulta -> fetchAll();
+
+    $busca = isset($_GET['busca']) ? trim($_GET['busca']): "";
+
+    //MOTOR DE BUSCA
+    $consultaVaga = "SELECT id, titulo, descricao, salario, localizacao  
+                     FROM tbl_vagas WHERE status = 'ativa' 
+                     AND titulo LIKE :buscaVaga OR descricao LIKE :buscaVaga";
+    
+    $preparaVaga = $cn -> prepare($consultaVaga);
+    $preparaVaga -> bindValue('buscaVaga', '%busca%');
+    $preparaVaga -> execute(); 
+
+    $vagas = $preparaVaga -> fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +64,7 @@
     <section class="search-section">
         <div class="container">
             <!-- Os alunos usarão o method="GET" aqui para realizar a busca via PHP -->
-            <form class="search-form" action="" method="GET">
+            <form class="search-form" action="index.php" method="GET">
                 <input type="text" name="busca" class="search-input" placeholder="Digite o cargo ex: Desenvolvedor PHP, Estágio...">
                 <button type="submit" class="btn-search">Buscar Vagas</button>
             </form>
@@ -79,7 +91,7 @@
                     </div>
                 </div>
                 <!-- O link levará para a página de detalhes/candidatura passando o ID via GET -->
-                <a href="vaga.php?id=1" class="btn-apply">Ver Detalhes</a>
+                <a href="vaga.php?id= <?= $vaga['id'] ?>" class="btn-apply">Ver Detalhes</a>
             </article>
 
             <?php endforeach;?>
