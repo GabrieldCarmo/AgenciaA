@@ -1,13 +1,13 @@
 <?php
     include "conexao.php";
     
-    $consultaSQL = "SELECT id, titulo, descricao, salario  FROM tbl_vagas";
+    $consultaSQL = "SELECT id, titulo, descricao, salario, localizacao  FROM tbl_vagas";
 
     // EXECUTANDO A CONSULTA 
 
     $ExecConsulta = $cn -> query($consultaSQL);
 
-    // Criando um array de vagas
+    // CRIANDO UM ARRAY DE VAGAS
     $vagas = $ExecConsulta -> fetchAll();
 ?>
 
@@ -64,49 +64,26 @@
         <h2 class="section-title">Vagas Disponíveis</h2>
         
         <div class="jobs-grid">
-            
+            <?php 
+                if(count($vagas) > 0):
+                    foreach($vagas as $vaga):
+            ?>
             <!-- [AQUI ENTRARÁ O LOOP DO PHP DOS ALUNOS (while/foreach)] -->
-            
             <!-- CARD EXEMPLO 1 (MOCK) -->
             <article class="job-card">
                 <div>
-                    <h3 class="job-title">Desenvolvedor Back-End Junior</h3>
-                    <div class="job-company">Tech Solutions Ltda</div>
+                    <h3 class="job-title"> <?= htmlspecialchars($vaga['titulo']); ?> </h3>
                     <div class="job-details">
-                        <p><strong>Localização:</strong> São Paulo - SP (Híbrido)</p>
-                        <p><strong>Salário:</strong> R$ 1.000,00</p>
+                        <p><strong>Localização:</strong> <?= htmlspecialchars($vaga['localizacao']) ?> </p>
+                        <p><strong>Salário:</strong> <?= htmlspecialchars($vaga['salario']); ?></p>
                     </div>
                 </div>
                 <!-- O link levará para a página de detalhes/candidatura passando o ID via GET -->
                 <a href="vaga.php?id=1" class="btn-apply">Ver Detalhes</a>
             </article>
 
-            <!-- CARD EXEMPLO 2 (MOCK) -->
-            <article class="job-card">
-                <div>
-                    <h3 class="job-title">Estágio em Desenvolvimento Web</h3>
-                    <div class="job-company">Inova Apps</div>
-                    <div class="job-details">
-                        <p><strong>Localização:</strong> Remoto</p>
-                        <p><strong>Salário:</strong> R$ 1.000,00</p>
-                    </div>
-                </div>
-                <a href="vaga.php?id=2" class="btn-apply">Ver Detalhes</a>
-            </article>
-
-            <!-- CARD EXEMPLO 3 (MOCK) -->
-            <article class="job-card">
-                <div>
-                    <h3 class="job-title">Programador Full Stack PHP / Vue</h3>
-                    <div class="job-company">Global Digital</div>
-                    <div class="job-details">
-                        <p><strong>Localização:</strong> Curitiba - PR (Presencial)</p>
-                        <p><strong>Salário:</strong> R$ 1.000,00</p>
-                    </div>
-                </div>
-                <a href="vaga.php?id=3" class="btn-apply">Ver Detalhes</a>
-            </article>
-
+            <?php endforeach;?>
+            <?php endif;?>
             <!-- [FIM DO LOOP DO PHP] -->
 
         </div>
