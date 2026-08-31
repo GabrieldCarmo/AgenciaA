@@ -1,3 +1,26 @@
+<?php
+    include "conexao.php";
+    $codVaga = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+    $vagaSQL = "SELECT id, titulo, salario, localizacao  
+                FROM tbl_vagas WHERE status = 'ativa' 
+                AND id=:id";
+
+    $prepararConsulta = $cn -> prepare($vagaSQL);
+    $prepararConsulta -> bindValue(':id', $codVaga,PDO::PARAM_INT);
+    $prepararConsulta -> execute();
+    $filtrarVaga = $prepararConsulta -> fetch();
+
+    if(!$filtrarVaga){
+        header("location:index.php");
+        exit;
+    }
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -32,20 +55,20 @@
             
             <!-- Cabeçalho do Card -->
             <header class="job-detail-header">
-                <span class="badge">Vaga Ativa</span>
-                <h1 class="job-detail-title">Desenvolvedor Back-End Junior</h1>
-                <p class="job-detail-company">Tech Solutions Ltda</p>
+                <span class="badge">Vaga <?= htmlspecialchars($filtrarVaga['status']); ?> </span>
+                <h1 class="job-detail-title"><?= htmlspecialchars($filtrarVaga['titulo']); ?></h1>
+                <p class="job-detail-company">Oculto</p>
             </header>
 
             <!-- Painel de Metadados (Grade com Informações Rápidas) -->
             <div class="job-meta-grid">
                 <div class="job-meta-item">
                     <span class="meta-label">Localização</span>
-                    <span class="meta-value">São Paulo - SP (Híbrido)</span>
+                    <span class="meta-value"><?= htmlspecialchars($filtrarVaga['localizacao']); ?></span>
                 </div>
                 <div class="job-meta-item">
                     <span class="meta-label">Salário</span>
-                    <span class="meta-value">R$ 3.500,00</span>
+                    <span class="meta-value">R$ <?= number_format($filtrarVaga['salario'],2,",","."); ?></span>
                 </div>
                 <div class="job-meta-item">
                     <span class="meta-label">Publicado em</span>

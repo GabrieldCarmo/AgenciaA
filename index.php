@@ -1,7 +1,8 @@
 <?php
     include "conexao.php";
     
-    $consultaSQL = "SELECT id, titulo, descricao, salario, localizacao  FROM tbl_vagas";
+    $consultaSQL = "SELECT id, titulo, descricao, salario, localizacao
+                    FROM tbl_vagas";
 
     // EXECUTANDO A CONSULTA 
     $ExecConsulta = $cn -> query($consultaSQL);
