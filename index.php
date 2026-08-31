@@ -12,12 +12,12 @@
     $busca = isset($_GET['busca']) ? trim($_GET['busca']): "";
 
     //MOTOR DE BUSCA
-    $consultaVaga = "SELECT id, titulo, descricao, salario, localizacao  
+    $consultaVaga = "SELECT id, titulo, salario, localizacao  
                      FROM tbl_vagas WHERE status = 'ativa' 
-                     AND titulo LIKE :buscaVaga OR descricao LIKE :buscaVaga";
+                     AND titulo LIKE :buscaVaga";
     
     $preparaVaga = $cn -> prepare($consultaVaga);
-    $preparaVaga -> bindValue('buscaVaga', '%busca%');
+    $preparaVaga -> bindValue(':buscaVaga', "%$busca%");
     $preparaVaga -> execute(); 
 
     $vagas = $preparaVaga -> fetchAll();
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <!-- O link levará para a página de detalhes/candidatura passando o ID via GET -->
-                <a href="vaga.php?id= <?= $vaga['id'] ?>" class="btn-apply">Ver Detalhes</a>
+                <a href="vagas.php?id= <?= $vaga['id'] ?>" class="btn-apply">Ver Detalhes</a>
             </article>
 
             <?php endforeach;?>
