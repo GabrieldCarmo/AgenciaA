@@ -43,7 +43,7 @@
                     <li><a href="#" class="nav-link">Início</a></li>
                     <li><a href="#vagas" class="nav-link">Vagas</a></li>
                     <!-- Futuramente o PHP do aluno vai controlar se exibe Login ou Painel aqui -->
-                    <li><a href="#" class="btn-login">Entrar / Cadastrar</a></li>
+                    <li><a href="login.php" class="btn-login">Entrar / Cadastrar</a></li>
                 </ul>
             </nav>
         </div>

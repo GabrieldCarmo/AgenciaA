@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - AgênciaJobs</title>
     <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/css_login.css">
+    <link rel="stylesheet" href="css/css_cadastro.css">
 </head>
 <body>
 
