@@ -2,9 +2,7 @@
     include "conexao.php";
     $codVaga = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-    $vagaSQL = "SELECT id, titulo, salario, localizacao  
-                FROM tbl_vagas WHERE status = 'ativa' 
-                AND id=:id";
+    $vagaSQL = "SELECT * FROM tbl_vagas WHERE status = 'ativa' AND id=:id";
 
     $prepararConsulta = $cn -> prepare($vagaSQL);
     $prepararConsulta -> bindValue(':id', $codVaga,PDO::PARAM_INT);
@@ -55,7 +53,7 @@
             
             <!-- Cabeçalho do Card -->
             <header class="job-detail-header">
-                <span class="badge">Vaga <?= htmlspecialchars($filtrarVaga['status']); ?> </span>
+                <span class="badge">Vaga <?= htmlspecialchars($filtrarVaga['status']);?> </span>
                 <h1 class="job-detail-title"><?= htmlspecialchars($filtrarVaga['titulo']); ?></h1>
                 <p class="job-detail-company">Oculto</p>
             </header>
@@ -72,7 +70,7 @@
                 </div>
                 <div class="job-meta-item">
                     <span class="meta-label">Publicado em</span>
-                    <span class="meta-value">30/08/2026</span>
+                    <span class="meta-value"><?= date('d/m/Y', strtotime($filtrarVaga['data_criacao']));?></span>
                 </div>
             </div>
 
@@ -81,13 +79,13 @@
             <!-- Descrição Completa -->
             <section class="job-section">
                 <h2>Descrição da Vaga</h2>
-                <p>Procuramos programador focado em PHP e MySQL para trabalhar em nossa equipe interna. Você atuará na criação e manutenção de APIs e sistemas web corporativos de grande porte.</p>
+                <p><?= htmlspecialchars($filtrarVaga['descricao']);?></p>
             </section>
 
             <!-- Requisitos do Cargo -->
             <section class="job-section">
                 <h2>Requisitos Necessários</h2>
-                <p>Conhecimento em PHP moderno, manipulação de banco de dados SQL via PDO, conceitos de segurança (XSS/SQLi) e versionamento com Git.</p>
+                <p><?= htmlspecialchars($filtrarVaga['requisitos']);?></p>
             </section>
 
             <!-- Caixa de Ação -->
