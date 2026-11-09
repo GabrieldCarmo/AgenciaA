@@ -14,9 +14,6 @@
         exit;
     }
 
-
-
-
 ?>
 
 <!DOCTYPE html>
