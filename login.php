@@ -15,7 +15,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $senha = $_POST["senha"] ?? "";
 }
 
-if()
+if($email === "" || $senha === ""){
+    $erro = "informar usuário e senha";
+}else{
+    $sqlLogin = "SELECT usuario_id, nome, email, senha FROM tbl_usuarios WHERE email = :email";
+    $preparaLogin = $cn->prepare($sqlLogin);
+    $preparaLogin->bindValue(':email', $email, PDO::PARAM_STR);
+    $preparaLogin->execute();
+    $usuarioLogado = $preparaLogin->fetch(PDO::FETCH_ASSOC);
+
+    if($usuarioLogado && password_verify($senha, $usuarioLogado["senha"])){
+        $_SESSION["id"] = $usuarioLogado["usuario_id"];
+        $_SESSION["nome"] = $usuarioLogado["nome"];
+        $_SESSION["perfil"] = $usuarioLogado["tipo_perfil"];
+        header("location: index.php");
+        exit;
+    } else {
+        $erro = "Usuário ou senha inválidos";
+    }
+}
 ?>
 
 
