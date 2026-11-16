@@ -1,3 +1,24 @@
+<?php
+session_start();
+include "conexao.php";
+
+// Se usuário estiver logado envia-lo para o index.php
+if (isset($_SESSION["usuario_id"])){
+    header("location: index.php");
+    exit;
+}
+
+$erro = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $email = trim($_POST["email"] ?? "");
+    $senha = $_POST["senha"] ?? "";
+}
+
+if()
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -30,7 +51,7 @@
             <p class="login-subtitle">Bem-vindo de volta! Insira seus dados para continuar.</p>
 
             <!-- Formulário de Login -->
-            <form action="autenticar.php" method="POST" class="login-form">
+            <form action="login.php" method="POST" class="login-form">
                 <div class="form-group">
                     <label for="email" class="form-label">E-mail</label>
                     <input type="email" id="email" name="email" class="form-input" placeholder="seu@email.com" required>
